@@ -1,0 +1,19 @@
+@import '../../style/mixins.scss';
+
+.root {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    img {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.link {
+    text-decoration: none;
+    color: #5558FA;
+    font-size: 12px;
+    line-height: 16px;
+    @include underline-animate;
+}

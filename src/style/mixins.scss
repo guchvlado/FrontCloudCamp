@@ -1,0 +1,19 @@
+@mixin underline-animate {
+    position: relative;
+      &::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          left: 50%;
+          bottom: -4px;
+          transition: all .3s ease;
+          height: 2px;
+          background-color: #5558FA;;
+      }
+      &:hover {
+          &::after {
+              width: 100%;
+              left: 0;
+          }
+      }
+}
