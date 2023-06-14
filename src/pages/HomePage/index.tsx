@@ -1,33 +1,102 @@
+import { Avatar, Button, Input, InputMasked } from "../../UI";
+import styles from "./index.module.scss";
 
+import { ContactItem } from "../../components/ContactItem";
+import { IContact } from "../../types";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from 'yup';
+import { useNavigate } from "react-router-dom";
 
-import { Avatar } from '../../UI'
-import styles from './index.module.scss'
-
-import AvatarImage from '../../assets/avatar.jpg'
-import { ContactItem } from '../../components/ContactItem'
-import { IContact } from '../../types'
-
-
+interface FormInput {
+  phone: string;
+  email: string;
+}
 
 export const HomePage: React.FC = () => {
 
-    const contacts: IContact[] = [
-        {id: 1, title: 'Telegram', link: 'https://t.me/guchvlado'},
-        {id: 2, title: 'GitHub', link: 'https://github.com/guchvlado'},
-        {id: 3, title: 'Resume', link: 'https://github.com/guchvlado'},
-    ]
+    const navigate = useNavigate()
 
-    return (
-        <div className={styles.root}>
-            <div className={styles.header}>
-                <Avatar>АИ</Avatar>
-                <div className={styles.info}>
-                    <div>Иван Иванов</div>
-                    <div className={styles.socials}>
-                        {contacts.map(item => <ContactItem key={item.id} {...item} />)}
-                    </div>
-                </div>
-            </div>
+  const contacts: IContact[] = [
+    { id: 1, title: "Telegram", link: "https://t.me/guchvlado" },
+    { id: 2, title: "GitHub", link: "https://github.com/guchvlado" },
+    { id: 3, title: "Resume", link: "https://github.com/guchvlado" },
+  ];
+
+  const schema = yup.object({
+    phone: yup.string().min(18, 'Телефон должен содержать 11 цифр').max(18, 'Телефон должен содержать 11 цифр').required('Обязательное поле'),
+    email: yup.string().email('Некорректна указана почта').required('Обязательное поле'),
+  }).required();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInput>({
+    defaultValues: {
+      phone: "",
+      email: "",
+    },
+    resolver: yupResolver(schema)
+  });
+
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    console.log(data);
+    navigate('/create')
+  };
+
+  return (
+    <div className={styles.root}>
+      <div className={styles.header}>
+        <Avatar>АИ</Avatar>
+        <div className={styles.info}>
+          <div>Иван Иванов</div>
+          <div className={styles.socials}>
+            {contacts.map((item) => (
+              <ContactItem key={item.id} {...item} />
+            ))}
+          </div>
         </div>
-    )
-}
+      </div>
+      <div className={styles.divider}></div>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.form__item}>
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <InputMasked
+                {...field}
+                id="field-phone"
+                mask="+{7} (000) 000-00-00"
+                placeholder="+7 (___) ___-__-__"
+                variant="filled"
+                label="Номер телефона"
+                error={errors.phone?.message}
+              />
+            )}
+          />
+        </div>
+
+        <div className={styles.form__item}>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                id="field-email"
+                variant="filled"
+                placeholder="guchvlado324@gmail.com"
+                label="Email"
+                error={errors.email?.message}
+              />
+            )}
+          />
+        </div>
+
+        <Button className={styles.button}>Начать</Button>
+      </form>
+    </div>
+  );
+};
