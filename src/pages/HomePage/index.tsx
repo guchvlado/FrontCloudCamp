@@ -1,11 +1,11 @@
 import { Avatar, Button, Input, InputMasked } from "../../UI";
 import styles from "./index.module.scss";
 
-import { ContactItem } from "../../components/ContactItem";
+import { ContactItem } from "../../components";
 import { IContact } from "../../types";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from 'yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 interface FormInput {
@@ -14,8 +14,7 @@ interface FormInput {
 }
 
 export const HomePage: React.FC = () => {
-
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const contacts: IContact[] = [
     { id: 1, title: "Telegram", link: "https://t.me/guchvlado" },
@@ -23,10 +22,19 @@ export const HomePage: React.FC = () => {
     { id: 3, title: "Resume", link: "https://github.com/guchvlado" },
   ];
 
-  const schema = yup.object({
-    phone: yup.string().min(18, 'Телефон должен содержать 11 цифр').max(18, 'Телефон должен содержать 11 цифр').required('Обязательное поле'),
-    email: yup.string().email('Некорректна указана почта').required('Обязательное поле'),
-  }).required();
+  const schema = yup
+    .object({
+      phone: yup
+        .string()
+        .min(18, "Телефон должен содержать 11 цифр")
+        .max(18, "Телефон должен содержать 11 цифр")
+        .required("Обязательное поле"),
+      email: yup
+        .string()
+        .email("Некорректна указана почта")
+        .required("Обязательное поле"),
+    })
+    .required();
 
   const {
     control,
@@ -37,12 +45,12 @@ export const HomePage: React.FC = () => {
       phone: "",
       email: "",
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     console.log(data);
-    navigate('/create')
+    navigate("/create");
   };
 
   return (
