@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Sex } from "../../types";
 
 interface FormSliceState {
@@ -17,8 +17,8 @@ interface FormSliceState {
 
 const initialState: FormSliceState = {
     activeStep: 0,
-    phone: '',
-    email: '',
+    phone: '+7 (916) 524-83-16',
+    email: 'guchvlado324@gmail.com',
     nickname: '',
     name: '',
     sername: '',
@@ -33,6 +33,12 @@ export const formSlice = createSlice({
     name: 'form',
     initialState,
     reducers: {
-        
+        updateForm: (state, action: PayloadAction<Partial<FormSliceState>>) => {
+            return {...state, ...action.payload}
+        },
     }
 })
+
+export const {
+    updateForm,
+} = formSlice.actions
