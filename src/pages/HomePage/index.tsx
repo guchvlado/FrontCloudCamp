@@ -7,6 +7,9 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { updateForm } from "../../redux/reducers/formSlice";
 
 interface FormInput {
   phone: string;
@@ -15,6 +18,9 @@ interface FormInput {
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const { phone, email } = useAppSelector((state) => state.form);
 
   const contacts: IContact[] = [
     { id: 1, title: "Telegram", link: "https://t.me/guchvlado" },
@@ -42,14 +48,14 @@ export const HomePage: React.FC = () => {
     formState: { errors },
   } = useForm<FormInput>({
     defaultValues: {
-      phone: "",
-      email: "",
+      phone,
+      email,
     },
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
+    dispatch(updateForm(data));
     navigate("/create");
   };
 
