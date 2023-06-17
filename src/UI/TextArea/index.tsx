@@ -20,7 +20,7 @@ export const TextArea = forwardRef(({ className, id, label, counter = false, err
                 <TextAreaResize className={styles.icon} />
                 <textarea value={value} id={id} className={textAreaClass} {...props}/>
             </div>
-            {counter && <div className={styles.counter}>Кол-во символов {value ? value.toString().length : 0}</div>}
+            {counter && <div className={styles.counter}>Кол-во символов {value ? value.toString().replace(/ /g, '').length : 0}</div>}
             {error ? <p className={styles.error}>{error}</p> : null}
             
         </div>
