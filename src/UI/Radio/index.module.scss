@@ -1,0 +1,33 @@
+.root {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radio {
+    margin: 2px;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid rgba(0, 0, 0, 0.24);
+    border-radius: 100px;
+    cursor: pointer;
+    position: relative;
+    &::after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        background-color: transparent;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &:checked {
+        border-color: var(--color-purple);
+        &::after {
+            background-color: var(--color-purple);
+        }
+    }
+}
