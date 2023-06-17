@@ -1,0 +1,40 @@
+.root {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    border: 1.5px solid rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    cursor: pointer;
+    &:checked {
+        background-color: var(--color-purple);
+    }
+}
+
+.label {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    color: #fff;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
