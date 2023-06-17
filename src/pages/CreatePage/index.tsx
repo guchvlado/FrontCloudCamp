@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import styles from './index.module.scss'
 import { Stepper } from '../../UI';
-import { StepOne } from '../../components';
+import { StepOne, StepThree, StepTwo } from '../../components';
 
 export const CreatePage: React.FC = () => {
 
@@ -20,8 +20,12 @@ export const CreatePage: React.FC = () => {
                 <Stepper.Step>
                     <StepOne onStepChange={onStepChange}/>
                 </Stepper.Step>
-                <Stepper.Step>2</Stepper.Step>
-                <Stepper.Step>3</Stepper.Step>
+                <Stepper.Step>
+                    <StepTwo onStepChange={onStepChange} />
+                </Stepper.Step>
+                <Stepper.Step>
+                    <StepThree onStepChange={onStepChange} />
+                </Stepper.Step>
             </Stepper>
         </div>
     )
