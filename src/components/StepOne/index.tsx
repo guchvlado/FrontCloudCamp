@@ -5,6 +5,9 @@ import styles from "./index.module.scss";
 import { Sex } from "../../types";
 import { Button, Input, Select } from "../../UI";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { updateForm } from "../../redux/reducers/formSlice";
 
 interface FormInput {
   nickname: string;
@@ -19,6 +22,11 @@ interface StepOneProps {
 
 export const StepOne: React.FC<StepOneProps> = ({ onStepChange }) => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const { nickname, name, sername, sex } = useAppSelector(
+    (state) => state.form
+  );
 
   const schema = yup
     .object({
@@ -47,16 +55,16 @@ export const StepOne: React.FC<StepOneProps> = ({ onStepChange }) => {
     formState: { errors },
   } = useForm<FormInput>({
     defaultValues: {
-      nickname: "",
-      name: "",
-      sername: "",
-      sex: Sex.Man,
+      nickname,
+      name,
+      sername,
+      sex,
     },
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
+    dispatch(updateForm(data));
     onStepChange(1);
   };
 
@@ -111,7 +119,7 @@ export const StepOne: React.FC<StepOneProps> = ({ onStepChange }) => {
               {...field}
               label="Sex"
               placeholder="Не выбрано"
-              id='field-sex'
+              id="field-sex"
               error={errors.sex?.message}
               data={[
                 { id: "field-sex-option-man", label: "man", value: Sex.Man },
