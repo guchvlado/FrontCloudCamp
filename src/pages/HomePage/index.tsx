@@ -98,7 +98,7 @@ export const HomePage: React.FC = () => {
           />
         </div>
 
-        <Button className={styles.button}>Начать</Button>
+        <Button id="button-start" className={styles.button}>Начать</Button>
       </form>
     </div>
   );
