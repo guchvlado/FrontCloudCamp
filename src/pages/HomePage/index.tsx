@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { updateForm } from "../../redux/reducers/formSlice";
+import { getInitialsFromName } from "../../utils/getInitialsFromName";
 
 interface FormInput {
   phone: string;
@@ -21,6 +22,7 @@ export const HomePage: React.FC = () => {
 
   const dispatch = useDispatch();
   const { phone, email } = useAppSelector((state) => state.form);
+  const fullName = 'Гученко Владислав'
 
   const contacts: IContact[] = [
     { id: 1, title: "Telegram", link: "https://t.me/guchvlado" },
@@ -62,9 +64,9 @@ export const HomePage: React.FC = () => {
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <Avatar>АИ</Avatar>
+        <Avatar>{getInitialsFromName(fullName)}</Avatar>
         <div className={styles.info}>
-          <div>Иван Иванов</div>
+          <div>{fullName}</div>
           <div className={styles.socials}>
             {contacts.map((item) => (
               <ContactItem key={item.id} {...item} />
