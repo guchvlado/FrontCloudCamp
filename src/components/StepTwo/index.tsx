@@ -5,10 +5,8 @@ import {
   useFieldArray,
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import styles from "./index.module.scss";
 import { Button, Checkbox, Input, Radio } from "../../UI";
-
 import DeleteIcon from "../../assets/delete.svg";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks/useAppSelector";
@@ -25,7 +23,6 @@ interface FormInput {
 interface StepTwoProps {
   onStepChange: (index: number) => void;
 }
-
 
 export const StepTwo: React.FC<StepTwoProps> = ({ onStepChange }) => {
   const dispatch = useDispatch();
@@ -74,7 +71,6 @@ export const StepTwo: React.FC<StepTwoProps> = ({ onStepChange }) => {
   };
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
     dispatch(
       updateForm({
         ...data,

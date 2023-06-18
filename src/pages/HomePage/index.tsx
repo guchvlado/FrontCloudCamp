@@ -11,7 +11,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { updateForm } from "../../redux/reducers/formSlice";
 import { getInitialsFromName } from "../../utils/getInitialsFromName";
 
-import Resume from '../../assets/Guchenko.pdf'
+import Resume from "../../assets/Guchenko.pdf";
 
 interface FormInput {
   phone: string;
@@ -23,7 +23,7 @@ export const HomePage: React.FC = () => {
 
   const dispatch = useDispatch();
   const { phone, email } = useAppSelector((state) => state.form);
-  const fullName = 'Гученко Владислав'
+  const fullName = "Гученко Владислав";
 
   const contacts: IContact[] = [
     { id: 1, title: "Telegram", link: "https://t.me/guchvlado" },

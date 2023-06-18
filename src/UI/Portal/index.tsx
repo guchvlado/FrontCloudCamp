@@ -5,7 +5,10 @@ export interface PortalProps {
   target?: HTMLElement;
 }
 
-export const Portal: React.FC<PropsWithChildren<PortalProps>> = ({ children, target = document.body }) => {
+export const Portal: React.FC<PropsWithChildren<PortalProps>> = ({
+  children,
+  target = document.body,
+}) => {
   const portalRef = useRef(document.createElement("div"));
 
   useEffect(() => {

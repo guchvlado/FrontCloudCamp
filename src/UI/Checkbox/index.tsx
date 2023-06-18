@@ -1,22 +1,34 @@
+import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from "react";
+import styles from "./index.module.scss";
+import { CheckIcon } from "./CheckboxIcon";
 
-
-import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from 'react';
-import styles from './index.module.scss'
-import { CheckIcon } from './CheckboxIcon';
-
-interface CheckboxProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-    label?: string;
+interface CheckboxProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  label?: string;
 }
 
-export const Checkbox = forwardRef(({label, id, ...props}: CheckboxProps, forwardRef) => {
+export const Checkbox = forwardRef(
+  ({ label, id, ...props }: CheckboxProps, forwardRef) => {
     return (
-        <div className={styles.root}>
-            <div className={styles.container}>
-                <CheckIcon className={styles.icon} />
-                <input {...props} className={styles.checkbox} id={id} type="checkbox" />
-            </div>
-            {label && <label className={styles.label} htmlFor={id}>{label}</label>}
+      <div className={styles.root}>
+        <div className={styles.container}>
+          <CheckIcon className={styles.icon} />
+          <input
+            {...props}
+            className={styles.checkbox}
+            id={id}
+            type="checkbox"
+          />
         </div>
-    )
-})
-
+        {label && (
+          <label className={styles.label} htmlFor={id}>
+            {label}
+          </label>
+        )}
+      </div>
+    );
+  }
+);

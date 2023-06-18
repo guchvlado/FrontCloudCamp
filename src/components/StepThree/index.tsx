@@ -2,13 +2,11 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styles from "./index.module.scss";
 import { Button, TextArea } from "../../UI";
-import { useNavigate } from "react-router-dom";
-
 import { useState } from "react";
 import { MessageModal } from "../MessageModal";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { clearForm, updateForm } from "../../redux/reducers/formSlice";
+import { updateForm } from "../../redux/reducers/formSlice";
 import { useSendFormDataMutation } from "../../api/apiSlice";
 import { stepThreeSchema } from "../../types";
 
@@ -43,7 +41,7 @@ export const StepThree: React.FC<StepThreeProps> = ({ onStepChange }) => {
     dispatch(updateForm(data));
     try {
       const { activeStep, ...sendData } = form;
-      const response = await sendFormData({...sendData, ...data});
+      const response = await sendFormData({ ...sendData, ...data });
       console.log(response);
     } catch (e) {
       console.log(e);
