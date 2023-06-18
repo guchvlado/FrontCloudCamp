@@ -16,6 +16,9 @@
     color: rgba(0, 0, 0, 0.48);
     font-size: 14px;
     line-height: 20px;
+    &::placeholder {
+        color: rgba(0, 0, 0, 0.48);
+    }
     &.filled {
         background: rgba(0, 0, 0, 0.04);
     }
