@@ -53,7 +53,7 @@ export const HomePage: React.FC = () => {
       <div className={styles.header}>
         <Avatar>{getInitialsFromName(fullName)}</Avatar>
         <div className={styles.info}>
-          <div>{fullName}</div>
+          <div className={styles.name}>{fullName}</div>
           <div className={styles.socials}>
             {contacts.map((item) => (
               <ContactItem key={item.id} {...item} />
