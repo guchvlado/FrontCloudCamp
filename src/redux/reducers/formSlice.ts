@@ -23,8 +23,8 @@ const initialState: FormSliceState = {
     name: '',
     sername: '',
     sex: Sex.Man,
-    advantages: [],
-    radio: 0,
+    advantages: ['', '', ''],
+    radio: 1,
     checkbox: [],
     about: '',
 }
@@ -35,10 +35,10 @@ export const formSlice = createSlice({
     reducers: {
         updateForm: (state, action: PayloadAction<Partial<FormSliceState>>) => {
             return {...state, ...action.payload}
-        },
+        }
     }
 })
 
 export const {
-    updateForm,
+    updateForm
 } = formSlice.actions
