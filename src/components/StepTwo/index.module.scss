@@ -78,3 +78,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media (max-width: 576px) {
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
