@@ -13,7 +13,7 @@ export const Checkbox = forwardRef(({label, id, ...props}: CheckboxProps, forwar
         <div className={styles.root}>
             <div className={styles.container}>
                 <CheckIcon className={styles.icon} />
-                <input className={styles.checkbox} id={id} type="checkbox" {...props}/>
+                <input {...props} className={styles.checkbox} id={id} type="checkbox" />
             </div>
             {label && <label className={styles.label} htmlFor={id}>{label}</label>}
         </div>
