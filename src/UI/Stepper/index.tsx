@@ -9,9 +9,10 @@ import completedStepImage from '../../assets/completedStep.svg'
 interface StepperProps {
     active: number;
     onStepChange: (index: number) => void;
+    allowNextStepsSelect?: boolean;
 }
 
-export const Stepper: React.FC<PropsWithChildren<StepperProps>> & {Step: typeof Step} = ({children, active, onStepChange}) => {
+export const Stepper: React.FC<PropsWithChildren<StepperProps>> & {Step: typeof Step} = ({children, active, onStepChange, allowNextStepsSelect = true}) => {
 
     const _children = Children.toArray(children) as React.ReactElement[];
 
@@ -29,9 +30,16 @@ export const Stepper: React.FC<PropsWithChildren<StepperProps>> & {Step: typeof 
                         const dividerClass = cn(styles.progress__divider, {
                             [styles.completed]: completedStep
                         })
+
+                        const onDotClick = () => {
+                            if (index < active || allowNextStepsSelect) {
+                                onStepChange(index)
+                            }
+                        }
+
                         return (
                             <Fragment key={index}> 
-                                <div className={dotClass} onClick={() => onStepChange(index)} id={`step-${index}`}>
+                                <div className={dotClass} onClick={onDotClick} id={`step-${index}`}>
                                     {completedStep ? <img src={completedStepImage} /> : null}
                                 </div>
                                 {index !== _children.length-1 ? <div className={dividerClass}></div> : null}

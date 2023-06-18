@@ -1,16 +1,16 @@
-import { useForm, SubmitHandler, Controller, useFieldArray } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import styles from "./index.module.scss";
-import { Button, Checkbox, Input, Radio, Select, TextArea } from "../../UI";
+import { Button, TextArea } from "../../UI";
 import { useNavigate } from "react-router-dom";
 
-import DeleteIcon from '../../assets/delete.svg'
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { MessageModal } from "../MessageModal";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { updateForm } from "../../redux/reducers/formSlice";
+import { clearForm, updateForm } from "../../redux/reducers/formSlice";
+import { useSendFormDataMutation } from "../../api/apiSlice";
+import { stepThreeSchema } from "../../types";
 
 interface FormInput {
   about: string;
@@ -21,19 +21,12 @@ interface StepThreeProps {
 }
 
 export const StepThree: React.FC<StepThreeProps> = ({ onStepChange }) => {
-
   const dispatch = useDispatch();
-  const { about } = useAppSelector(
-    (state) => state.form
-  );
+  const form = useAppSelector((state) => state.form);
 
-  const [openedMessage, setOpenedMessage] = useState<boolean>(false)
+  const [sendFormData, { isError, isSuccess }] = useSendFormDataMutation();
 
-  const schema = yup
-  .object({
-    about: yup.string().max(200, 'Максимальная длина 200 символов'),
-  })
-  .required();
+  const [openedMessage, setOpenedMessage] = useState<boolean>(false);
 
   const {
     control,
@@ -41,25 +34,37 @@ export const StepThree: React.FC<StepThreeProps> = ({ onStepChange }) => {
     formState: { errors },
   } = useForm<FormInput>({
     defaultValues: {
-      about,
+      about: form.about,
     },
-    resolver: yupResolver(schema)
-  }); 
+    resolver: yupResolver(stepThreeSchema),
+  });
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
-    dispatch(updateForm(data))
-    setOpenedMessage(true)
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    dispatch(updateForm(data));
+    try {
+      const { activeStep, ...sendData } = form;
+      const response = await sendFormData({...sendData, ...data});
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setOpenedMessage(true);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      
       <Controller
-        name='about'
+        name="about"
         control={control}
-        render={({field}) => (
-            <TextArea id="field-about" error={errors.about?.message} counter label="About" {...field}/>
+        render={({ field }) => (
+          <TextArea
+            id="field-about"
+            error={errors.about?.message}
+            counter
+            label="About"
+            {...field}
+          />
         )}
       />
 
@@ -76,7 +81,12 @@ export const StepThree: React.FC<StepThreeProps> = ({ onStepChange }) => {
           Далее
         </Button>
       </div>
-      <MessageModal isSuccess opened={openedMessage} onClose={() => setOpenedMessage(false)} />
+      <MessageModal
+        isSuccess={isSuccess}
+        isError={isError}
+        opened={openedMessage}
+        onClose={() => setOpenedMessage(false)}
+      />
     </form>
   );
 };

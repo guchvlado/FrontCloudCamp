@@ -8,6 +8,8 @@ import SuccessIcon from '../../assets/messageSuccess.svg'
 import ErrorIcon from '../../assets/messageError.svg'
 import CloseIcon from '../../assets/closeIcon.svg'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
+import { clearForm } from '../../redux/reducers/formSlice'
 
 export interface MessageModalProps {
     opened: boolean;
@@ -28,9 +30,11 @@ export const MessageModal: React.FC<MessageModalProps> = ({onClose, opened, isEr
 
 const SuccessContent = () => {
     
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const onClickButton = () => {
+        dispatch(clearForm())
         navigate('/')
     }
 

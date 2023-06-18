@@ -1,8 +1,7 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import styles from "./index.module.scss";
-import { Sex } from "../../types";
+import { Sex, stepOneSchema } from "../../types";
 import { Button, Input, Select } from "../../UI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -28,27 +27,6 @@ export const StepOne: React.FC<StepOneProps> = ({ onStepChange }) => {
     (state) => state.form
   );
 
-  const schema = yup
-    .object({
-      nickname: yup
-        .string()
-        .max(30, "Максимальная длина 30 символов")
-        .matches(/^[a-zA-Z0-9а-яА-ЯёЁ]+$/, "только буквы и цифры")
-        .required("Обязательное поле"),
-      name: yup
-        .string()
-        .max(50, "Максимальная длина 50 символов")
-        .matches(/^[a-zA-Zа-яА-ЯёЁ]+$/, "только буквы")
-        .required("Обязательное поле"),
-      sername: yup
-        .string()
-        .max(50, "Максимальная длина 50 символов")
-        .matches(/^[a-zA-Zа-яА-ЯёЁ]+$/, "только буквы")
-        .required("Обязательное поле"),
-      sex: yup.string().required("Обязательное поле"),
-    })
-    .required();
-
   const {
     control,
     handleSubmit,
@@ -60,7 +38,7 @@ export const StepOne: React.FC<StepOneProps> = ({ onStepChange }) => {
       sername,
       sex,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(stepOneSchema),
   });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {

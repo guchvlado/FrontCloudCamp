@@ -2,15 +2,16 @@ import { Avatar, Button, Input, InputMasked } from "../../UI";
 import styles from "./index.module.scss";
 
 import { ContactItem } from "../../components";
-import { IContact } from "../../types";
+import { IContact, contactsSchema } from "../../types";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { updateForm } from "../../redux/reducers/formSlice";
 import { getInitialsFromName } from "../../utils/getInitialsFromName";
+
+import Resume from '../../assets/Guchenko.pdf'
 
 interface FormInput {
   phone: string;
@@ -27,22 +28,8 @@ export const HomePage: React.FC = () => {
   const contacts: IContact[] = [
     { id: 1, title: "Telegram", link: "https://t.me/guchvlado" },
     { id: 2, title: "GitHub", link: "https://github.com/guchvlado" },
-    { id: 3, title: "Resume", link: "https://github.com/guchvlado" },
+    { id: 3, title: "Resume", link: Resume },
   ];
-
-  const schema = yup
-    .object({
-      phone: yup
-        .string()
-        .min(18, "Телефон должен содержать 11 цифр")
-        .max(18, "Телефон должен содержать 11 цифр")
-        .required("Обязательное поле"),
-      email: yup
-        .string()
-        .email("Некорректна указана почта")
-        .required("Обязательное поле"),
-    })
-    .required();
 
   const {
     control,
@@ -53,7 +40,7 @@ export const HomePage: React.FC = () => {
       phone,
       email,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(contactsSchema),
   });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {

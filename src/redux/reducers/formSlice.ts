@@ -35,10 +35,18 @@ export const formSlice = createSlice({
     reducers: {
         updateForm: (state, action: PayloadAction<Partial<FormSliceState>>) => {
             return {...state, ...action.payload}
+        },
+        changeActiveStep: (state, action: PayloadAction<number>) => {
+            state.activeStep = action.payload
+        },
+        clearForm: () => {
+            return initialState;
         }
     }
 })
 
 export const {
-    updateForm
+    updateForm,
+    changeActiveStep,
+    clearForm
 } = formSlice.actions

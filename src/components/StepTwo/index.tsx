@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { updateForm } from "../../redux/reducers/formSlice";
 import { Fragment } from "react";
+import { stepTwoSchema } from "../../types";
 
 interface FormInput {
   advantages: { title: string }[];
@@ -25,24 +26,13 @@ interface StepTwoProps {
   onStepChange: (index: number) => void;
 }
 
+
 export const StepTwo: React.FC<StepTwoProps> = ({ onStepChange }) => {
   const dispatch = useDispatch();
   const { advantages, checkbox, radio } = useAppSelector((state) => state.form);
 
   const checkboxOptions: number[] = [1, 2, 3];
   const radioOptions: number[] = [1, 2, 3];
-
-  const schema = yup
-    .object({
-      advantages: yup
-        .array()
-        .of(yup.object({ title: yup.string().required("Поле не заполнено") }))
-        .min(1, "Укажите хотя бы одно преимущество")
-        .required(),
-      checkbox: yup.array().of(yup.number()),
-      radio: yup.number().required(),
-    })
-    .required();
 
   const {
     control,
@@ -56,7 +46,7 @@ export const StepTwo: React.FC<StepTwoProps> = ({ onStepChange }) => {
       checkbox,
       radio,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(stepTwoSchema),
   });
 
   const {
